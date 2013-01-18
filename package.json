@@ -14,5 +14,9 @@
     "errbit"
   ],
   "author": "Bjørge Næss",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "stacktrace-js": "~0.5.0",
+    "airbrake-notice": "0.0.1"
+  }
 }

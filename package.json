@@ -1,0 +1,18 @@
+{
+  "name": "fronterr",
+  "version": "0.0.0",
+  "description": "The JavaScript companion to the fronterr pebble",
+  "main": "fronterr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bengler/fronterr.js"
+  },
+  "keywords": [
+    "errbit"
+  ],
+  "author": "Bjørge Næss",
+  "license": "BSD"
+}

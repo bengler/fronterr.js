@@ -14,7 +14,7 @@
     "errbit"
   ],
   "author": "Bjørge Næss",
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
     "airbrake-notice": "0.0.1"
   }

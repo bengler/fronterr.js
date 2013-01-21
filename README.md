@@ -1,4 +1,6 @@
-# The JavaScript companion to the fronterr pebble
+# Fronterr.js
+
+The JavaScript companion to the [fronterr](https://github.com/bengler/fronterr) pebble
 
 ## Usage:
 

@@ -1,7 +1,5 @@
-var stacktrace = require("stacktrace-js");
 var AirbrakeNotice = require("airbrake-notice");
 var fronterr = require("../package");
-
 
 function FrontErr(opts) {
   opts || (opts = {});
@@ -18,16 +16,16 @@ function FrontErr(opts) {
   this.notice = new AirbrakeNotice(opts.airbrakeAPI);
 }
 
-FrontErr.prototype.createBaseNotice = function() {
+FrontErr.prototype.createBaseNotice = function () {
   return {
-    apiKey: 'API_KEY_FOR:'+this.app.name,
+    apiKey: 'API_KEY_FOR:' + this.app.name,
     notifier: {
       name: 'fronterr.js',
       version: fronterr.version,
-      url: fronterr.homepage || (fronterr.repository && fronterr.repository .url) || ''
+      url: fronterr.homepage || (fronterr.repository && fronterr.repository.url) || ''
     },
     serverEnvironment: {
-      name: this.environment || 'n/a',
+      name: this.environment || 'n/a',
       projectRoot: this.path || document.location.pathname,
       appVersion: this.app.version || 'n/a'
     },
@@ -42,23 +40,32 @@ FrontErr.prototype.createBaseNotice = function() {
   };
 };
 
-FrontErr.prototype.createNotice = function(error) {
+FrontErr.prototype.createNotice = function (error) {
   var notice = this.createBaseNotice();
-  notice.error = {
-    class: 'error',
-    message: error.message,
-    backtrace: [{number: 10, file:"internal:", method: ""}]
-  };
+  notice.error = error;
   return this.notice.create(notice);
 };
 
-FrontErr.prototype.reportError = function(error) {
-  return this.sendNotice(this.createNotice(error));
+FrontErr.prototype.reportError = function (error) {
+  return this.postNotice(this.createNotice(error));
 };
 
-FrontErr.prototype.sendNotice = function(notice) {
-  console.log('posting', notice);
+FrontErr.prototype.postNotice = function (notice) {
   return this.service.post("/notifier_api/v2/notices.xml", {data: notice});
+};
+
+FrontErr.prototype.start = function () {
+  var existingHandler = window.onerror;
+  window.onerror = function(message, file, line) {
+    if (existingHandler) existingHandler.apply(window, arguments);
+    this.reportError({
+      message: message,
+      file: file,
+      line: line,
+      backtrace: [{file: file, line: line}]
+    });
+    return true;
+  }.bind(this);
 };
 
 module.exports = FrontErr;

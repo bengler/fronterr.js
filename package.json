@@ -16,7 +16,6 @@
   "author": "Bjørge Næss",
   "license": "BSD",
   "dependencies": {
-    "stacktrace-js": "~0.5.0",
     "airbrake-notice": "0.0.1"
   }
 }

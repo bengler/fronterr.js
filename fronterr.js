@@ -58,13 +58,14 @@ FrontErr.prototype.start = function () {
   var existingHandler = window.onerror;
   window.onerror = function(message, file, line) {
     if (existingHandler) existingHandler.apply(window, arguments);
+    file || (file = "<unknown>");
+    line || (line = 0);
     this.reportError({
       message: message,
       file: file,
       line: line,
-      backtrace: [{file: file, line: line}]
+      backtrace: [{method: '<unknownn>', file: file, line: line}]
     });
-    return true;
   }.bind(this);
 };
 

@@ -60,11 +60,15 @@ FrontErr.prototype.start = function () {
     if (existingHandler) existingHandler.apply(window, arguments);
     file || (file = "<unknown>");
     line || (line = 0);
+
+    file = encodeURIComponent(file);
+    message = encodeURIComponent(message);
+
     this.reportError({
       message: message,
       file: file,
       line: line,
-      backtrace: [{method: '<unknownn>', file: file, line: line}]
+      backtrace: [{method: encodeURIComponent('<unknown>'), file: file, line: line}]
     });
   }.bind(this);
 };

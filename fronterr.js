@@ -1,6 +1,14 @@
 var AirbrakeNotice = require("airbrake-notice");
 var fronterr = require("../package");
 
+function escapeXML(str) {
+  return str.replace(/&/g, '&#38;')
+    .replace(/</g, '&#60;')
+    .replace(/>/g, '&#62;')
+    .replace(/'/g, '&#39;')
+    .replace(/"/g, '&#34;');
+}
+
 function FrontErr(opts) {
   opts || (opts = {});
   if (!opts.service) throw Error("Please provide a FrontErr service endpoint");
@@ -61,14 +69,14 @@ FrontErr.prototype.start = function () {
     file || (file = "<unknown>");
     line || (line = 0);
 
-    file = encodeURIComponent(file);
-    message = encodeURIComponent(message);
+    file = escapeXML(file);
+    message = escapeXML(message);
 
     this.reportError({
       message: message,
       file: file,
       line: line,
-      backtrace: [{method: encodeURIComponent('<unknown>'), file: file, line: line}]
+      backtrace: [{method: escapeXML('<unknown>'), file: file, line: line}]
     });
   }.bind(this);
 };
